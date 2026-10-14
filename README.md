@@ -14,9 +14,15 @@ js/calculations.js       # Cálculos de autonomia e assinatura + uso
 js/assets.js             # Ícones e caminhos das imagens
 data/simulator.json      # Modelos, consumo, premissas e exemplos de preços
 assets/images/           # Fotos e ilustrações locais
+docs/                    # Contexto do case e metodologia
 ```
 
 Os dados ficam no JSON; as fórmulas continuam no JavaScript. O JSON não é um banco de dados e não cria um backend.
+
+## Documentação
+
+- [`docs/contexto-do-case.md`](docs/contexto-do-case.md) — o desafio, o diagnóstico, o recorte e a hipótese deste MVP.
+- [`docs/metodologia-e-limites.md`](docs/metodologia-e-limites.md) — como o cálculo funciona, de onde vêm os dados e o que o MVP não garante.
 
 ## Como abrir
 
