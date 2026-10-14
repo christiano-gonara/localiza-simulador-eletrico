@@ -2,6 +2,8 @@
 
 MVP de apresentação para o Case 1 do hackathon Localiza: ajudar o cliente a avaliar um elétrico por assinatura na sua rotina.
 
+**Demo online:** https://christiano-gonara.github.io/localiza-simulador-eletrico/
+
 ## Organização
 
 ```text
@@ -26,7 +28,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 Abra `http://127.0.0.1:8000` no navegador. Encerre com `Ctrl+C`.
 
-Este servidor só entrega os arquivos estáticos. Não há backend de aplicação, banco de dados, instalação de dependências ou etapa de build. Se hospedar a pasta em um serviço de páginas estáticas, não precisa rodar esse comando.
+Este servidor só entrega os arquivos estáticos. Não há backend de aplicação, banco de dados, instalação de dependências ou etapa de build. Se hospedar a pasta em um serviço de páginas estáticas, não precisa rodar esse comando: a demo online acima já é servida assim, a partir do branch `main`.
 
 Não abra `index.html` por duplo clique: o navegador pode bloquear a leitura do JSON pelo endereço `file://`. O simulador exibe uma orientação nesse caso, em vez de deixar a tela vazia.
 
