@@ -6,10 +6,18 @@ MVP de apresentação para o Case 1 do hackathon Localiza: ajudar o cliente a av
 
 ![Tour pelo simulador](assets/readme/demo.gif)
 
+## 📸 Capturas de tela
+
 <table>
   <tr>
-    <td width="50%" valign="top"><img src="assets/readme/01-rotina.png" alt="Tela da rotina: escolha do elétrico e quilometragem"><br><sub><b>Sua rotina</b><br>Escolha do elétrico, km por dia e dias de uso, com recarga em casa.</sub></td>
-    <td width="50%" valign="top"><img src="assets/readme/02-resultado.png" alt="Tela do resultado: autonomia e assinatura + uso"><br><sub><b>Seu cenário</b><br>Se o trajeto cabe na autonomia e o custo mensal lado a lado com o Argo.</sub></td>
+    <th>Sua rotina</th>
+    <th>Seu cenário</th>
+    <th>Sobre a simulação</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/readme/01-rotina.png" alt="Tela da rotina: escolha do elétrico e quilometragem diária"></td>
+    <td align="center"><img src="assets/readme/02-resultado.png" alt="Tela do resultado: autonomia e assinatura + uso lado a lado"></td>
+    <td align="center"><img src="assets/readme/03-sobre.png" alt="Janela Sobre a simulação com premissas e fontes"></td>
   </tr>
 </table>
 
