@@ -117,28 +117,19 @@ a { color: var(--green-dark); }
   color: var(--green-dark);
 }
 
-/* Texto de contexto, sem borda nem fundo: não parece clicável */
+/* Contexto do case: texto simples com o raio da mobilidade elétrica */
 .kicker {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 32px;
   font-size: 15px;
   font-weight: 500;
   color: var(--muted);
 }
 
-.kicker::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 4px var(--mint);
-  flex-shrink: 0;
-}
-
-.kicker b { color: var(--green-dark); font-weight: 700; }
+.kicker svg { width: 18px; height: 18px; color: var(--green); flex-shrink: 0; }
+.kicker b { color: var(--ink); font-weight: 700; }
 
 .display {
   font-family: var(--font-display);
@@ -149,25 +140,70 @@ a { color: var(--green-dark); }
 }
 
 .presentation h1 {
-  margin-top: 18px;
+  margin-top: 16px;
   font-size: clamp(40px, 3.8vw, 54px);
 }
 
-.marker { position: relative; z-index: 0; white-space: nowrap; }
+/* Título: "O elétrico" no itálico verde da marca, com uma bateria carregando ao lado */
+.title-ev .ev-line { display: flex; align-items: center; gap: 0.22em; }
 
-.marker::before {
-  content: "";
-  position: absolute;
-  inset: 0.14em -0.1em 0.02em -0.12em;
-  z-index: -1;
-  background: var(--lime);
-  border-radius: 0.14em;
-  transform: rotate(-1.2deg) scaleX(0);
-  transform-origin: left center;
-  animation: mark 0.9s 0.35s var(--ease) forwards;
+.title-ev em {
+  font-style: italic;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -0.04em;
+  padding-right: 0.04em;
 }
 
-@keyframes mark { to { transform: rotate(-1.2deg) scaleX(1); } }
+.title-ev .ev-rest { display: block; }
+
+.battery {
+  position: relative;
+  flex-shrink: 0;
+  width: 1.05em;
+  height: 0.56em;
+  padding: 0.06em;
+  border: 0.065em solid var(--ink);
+  border-radius: 0.16em;
+  margin-top: 0.06em;
+}
+
+.battery::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -0.15em;
+  width: 0.07em;
+  height: 0.22em;
+  border-radius: 0 0.05em 0.05em 0;
+  background: var(--ink);
+  transform: translateY(-50%);
+}
+
+.battery-fill {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 80%;
+  overflow: hidden;
+  border-radius: 0.07em;
+  background: var(--green);
+  transform-origin: left center;
+  animation: charge 1.6s 0.3s var(--ease) both;
+}
+
+/* Brilho que corre pela carga, como no indicador de recarga */
+.battery-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-100%);
+  animation: flow 2.4s 1.9s ease-in-out infinite;
+}
+
+@keyframes charge { from { transform: scaleX(0.08); background: var(--lime); } }
+@keyframes flow { 60%, 100% { transform: translateX(100%); } }
 
 .lead {
   margin-top: 20px;
@@ -1329,7 +1365,6 @@ textarea {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-  .marker::before { transform: rotate(-1.2deg) scaleX(1); }
 }
 
 @media print {
