@@ -98,7 +98,8 @@ a { color: var(--green-dark); }
 .case-panel { grid-area: right; max-width: 380px; justify-self: start; }
 .iphone-frame { grid-area: phone; }
 
-.wordmark { display: flex; align-items: baseline; gap: 10px; }
+.wordmark { display: flex; align-items: center; gap: 10px; }
+.wordmark img { width: 36px; height: 36px; flex-shrink: 0; }
 
 .wordmark strong {
   font-size: 34px;
