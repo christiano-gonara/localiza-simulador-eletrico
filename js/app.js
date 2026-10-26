@@ -601,9 +601,9 @@ function initializeSimulator(config) {
         state.screen = "result";
         render();
         document.querySelector(".app").scrollTo(0, 0);
-        // No celular os cenários ficam abaixo do app: volta para o resultado.
+        // No celular os cenários ficam acima do iPhone: rola até o resultado.
         if (window.matchMedia("(max-width: 860px)").matches)
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          document.querySelector(".iphone-frame").scrollIntoView({ behavior: "smooth", block: "start" });
       } catch (error) {
         toast(error.message);
       }
