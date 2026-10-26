@@ -1160,7 +1160,7 @@ details[open] > summary .chevron { transform: rotate(180deg); }
   font-size: 15px;
 }
 
-.data-row strong { max-width: 55%; text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.data-row strong { flex-shrink: 0; max-width: 55%; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 .explain {
   margin-top: 8px;
@@ -1382,3 +1382,58 @@ textarea {
   body { background: #fff; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* Como calculamos: premissas com explicação curta */
+.data-row > span small { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; }
+
+.left-out { margin-top: 6px; padding: 14px; border-radius: var(--radius-md); background: #f4f6f1; }
+.left-out > span { display: block; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.left-out ul { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.left-out li { padding: 5px 10px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font-size: 13.5px; font-weight: 600; }
+
+.method-note { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+.method-note .icon { width: 18px; height: 18px; }
+
+/* Sobre a simulação */
+.info-list { list-style: none; margin: 4px 0 0; padding: 0; }
+.info-list li { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--line-soft); }
+.info-list strong { display: block; font-size: 16px; }
+.info-list small { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.5; color: var(--body); }
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--mint);
+  color: var(--green-dark);
+}
+
+.info-icon .icon { width: 22px; height: 22px; }
+
+.modal-subtitle { margin: 18px 0 10px; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+.source-links { display: grid; gap: 8px; }
+
+.source-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.source-link strong { display: block; font-size: 15px; }
+.source-link small { display: block; margin-top: 1px; font-size: 13.5px; color: var(--muted); }
+.source-link .icon { width: 20px; height: 20px; color: var(--green); transition: transform 0.2s var(--ease); }
+.source-link:hover { background: var(--mint); border-color: #b9d9c3; }
+.source-link:hover .icon { transform: translateX(3px); }
+
+.credits { margin-top: 16px; font-size: 13px; color: var(--muted); }
