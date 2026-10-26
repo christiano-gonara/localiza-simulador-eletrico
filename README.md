@@ -4,6 +4,15 @@ MVP de apresentação para o Case 1 do hackathon Localiza: ajudar o cliente a av
 
 **Demo online:** https://christiano-gonara.github.io/localiza-simulador-eletrico/
 
+![Tour pelo simulador](assets/readme/demo.gif)
+
+<table>
+  <tr>
+    <td width="50%" valign="top"><img src="assets/readme/01-rotina.png" alt="Tela da rotina: escolha do elétrico e quilometragem"><br><sub><b>Sua rotina</b><br>Escolha do elétrico, km por dia e dias de uso, com recarga em casa.</sub></td>
+    <td width="50%" valign="top"><img src="assets/readme/02-resultado.png" alt="Tela do resultado: autonomia e assinatura + uso"><br><sub><b>Seu cenário</b><br>Se o trajeto cabe na autonomia e o custo mensal lado a lado com o Argo.</sub></td>
+  </tr>
+</table>
+
 ## Organização
 
 ```text
@@ -14,6 +23,8 @@ js/calculations.js       # Cálculos de autonomia e assinatura + uso
 js/assets.js             # Ícones e caminhos das imagens
 data/simulator.json      # Modelos, consumo, premissas e exemplos de preços
 assets/images/           # Fotos e ilustrações locais
+assets/readme/           # Prints e GIF do README
+favicon.svg              # Logo do simulador
 docs/                    # Contexto do case e metodologia
 ```
 
@@ -72,7 +83,8 @@ Os arquivos locais funcionam sem consulta a serviços externos, desde que o serv
 
 - Gasolina: Combustível API, com data da coleta exibida na interface.
 - Veículos: referências do PBE Veicular/Inmetro 2026 e premissas explícitas no simulador. Para o Argo Drive 1.3 AT (CVT-7), usamos 12,8 km/l com gasolina na cidade, conforme a tabela de 14/08/2026. O Argo tem a mesma mensalidade fictícia nos dois pares. A comparação aproxima a proposta de transmissão automática, mas não estabelece equivalência de porte ou equipamentos.
-- Ícones: Phosphor Duotone, licença MIT preservada no HTML; ilustrações 3dicons.
+- Fonte: Figtree (Google Fonts).
+- Ícones: Phosphor Duotone, licença MIT preservada no HTML; setas em traço simples desenhadas para o projeto; ilustrações 3dicons.
 - Foto ilustrativa do Argo: site oficial Fiat Argo; asset originalmente obtido para o Drive 1.0, não uma confirmação dos equipamentos da versão CVT. Imagens e marcas de veículos pertencem aos respectivos titulares.
 
 Protótipo de hackathon não oficial. Os PDFs do case e os materiais de apresentação não fazem parte deste repositório.
