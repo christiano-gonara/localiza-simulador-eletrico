@@ -112,6 +112,7 @@ function initializeSimulator(config) {
   }
   function decisionCard(r) {
     const d = decisionSummary(r);
+    if (!["restricted", "pending"].includes(d.kind)) return "";
     return `<div class="decision decision-compact ${d.kind}" data-decision><span class="decision-symbol" aria-hidden="true">${icon(d.glyph)}</span><div><strong>${d.title}</strong><small>${d.detail}</small></div></div>`;
   }
   function clearPlanQuotes() {
@@ -184,9 +185,6 @@ function initializeSimulator(config) {
       }),
     };
   }
-  function radio(name, values, current) {
-    return `<div class="seg">${values.map(([v, label, glyph]) => `<input type="radio" id="${name}-${v}" name="${name}" value="${v}" ${v === current ? "checked" : ""}><label for="${name}-${v}">${icon(glyph)}<span>${label}</span></label>`).join("")}</div>`;
-  }
   function fuelNote(uf = state.input.uf) {
     const price = state.fuel.data.prices[uf];
     return `<div class="fuel-inline"><span class="fuel-glyph">${icon("gas-pump")}</span><div><strong>${Number.isFinite(price) ? `Gasolina em ${uf.toUpperCase()} · ${brl(price, 2)}/L` : "Estado sem preço na API"}</strong><small>${state.fuel.loading ? "Consultando a API…" : state.fuel.status === "live" ? "Consulta API" : state.fuel.status === "unavailable" ? "Consulta indisponível · dado salvo" : "Dado salvo"} · coleta ${collectionDate()}</small></div></div>`;
@@ -219,7 +217,15 @@ function initializeSimulator(config) {
     $("stepResult").disabled = !state.result;
     $("stepRoutine").setAttribute("aria-current", isRoutine ? "step" : "false");
     $("stepResult").setAttribute("aria-current", isRoutine ? "false" : "step");
-    $("screen").innerHTML = isRoutine ? routine() : resultScreen();
+    const screen = $("screen");
+    const changed = screen.dataset.view !== state.screen;
+    screen.dataset.view = state.screen;
+    screen.innerHTML = isRoutine ? routine() : resultScreen();
+    if (changed) {
+      screen.classList.remove("enter");
+      void screen.offsetWidth;
+      screen.classList.add("enter");
+    }
     $("dock").innerHTML = isRoutine
       ? `<button class="primary" data-action="simulate" ${Number.isFinite(state.fuel.data.prices[state.input.uf]) ? "" : "disabled"}>Ver meu cenário ${icon("arrow-right")}</button>`
       : `<button class="icon-button" data-action="edit" aria-label="Editar rotina">${icon("sliders-horizontal")}</button><button class="primary" data-action="next">Antes de assinar ${icon("arrow-right")}</button>`;
@@ -235,7 +241,7 @@ function initializeSimulator(config) {
       )
       .join(
         "",
-      )}</div></section><section class="card routine-card"><div class="section-label"><span class="label-icon">${icon("path")} Sua rotina mensal</span></div><div class="routine-slider-box"><div class="range-head"><span class="range-title">Quilometragem diária</span><div class="km-input-badge"><input type="number" id="kmNumber" min="10" max="240" step="5" value="${i.kmDay}" aria-label="Quilometragem diária"><small>km/dia</small></div></div><input type="range" id="kmDay" name="kmDay" min="10" max="240" step="5" value="${i.kmDay}"><div class="range-labels"><span>10 km</span><span>120 km</span><span>240 km</span></div></div><div class="routine-details-grid"><div class="field days-field-v2"><label for="daysMonth"><span class="label-icon-inline">${icon("calendar-dots")}</span> Dias de uso/mês</label><div class="stepper-input"><button type="button" class="step-btn" data-step="-1" aria-label="Diminuir dias">-</button><input type="number" id="daysMonth" name="daysMonth" min="1" max="31" step="1" value="${i.daysMonth}" required><button type="button" class="step-btn" data-step="1" aria-label="Aumentar dias">+</button></div></div><div class="stat-badge-month"><span class="stat-badge-label">Total estimado</span><strong id="monthPreview">${number(i.kmDay * i.daysMonth)} <small>km/mês</small></strong></div></div><div class="home-charging-card"><div class="charging-card-header"><span class="charging-icon-badge">${icon("house-line")}</span><div><strong>Recarga em casa</strong><p id="chargingHint">${chargingHint()}</p></div></div></div></section><section class="card plan-preview"><div class="section-label"><span class="label-icon">${icon("wallet")} Assinatura + uso</span></div><p>${state.plan.months} meses · ${number(state.plan.kmAllowance)} km/mês para os dois carros</p><button type="button" class="subtle-link" data-action="assumptions">Ajustar preços e assinatura</button><p class="hint example-notice">${planNote()}</p></section><div class="price-setting"><div data-fuel-note>${fuelNote()}</div><button type="button" class="icon-button" data-action="assumptions" aria-label="Ajustar preços e assinatura">${icon("sliders-horizontal")}</button></div><p class="note">${icon("info")}<span>O total soma mensalidade e energia ou gasolina. Não inclui instalação, taxas ou km excedentes.</span></p><div id="formError" class="error" role="alert" hidden></div></form>`;
+      )}</div></section><section class="card routine-card"><div class="section-label"><span class="label-icon">${icon("path")} Sua rotina mensal</span></div><div class="routine-slider-box"><div class="range-head"><span class="range-title">Quilometragem diária</span><div class="km-input-badge"><input type="number" id="kmNumber" min="10" max="240" step="5" value="${i.kmDay}" aria-label="Quilometragem diária"><small>km/dia</small></div></div><input type="range" id="kmDay" name="kmDay" min="10" max="240" step="5" value="${i.kmDay}"><div class="range-labels"><span>10 km</span><span>120 km</span><span>240 km</span></div></div><div class="routine-details-grid"><div class="field days-field-v2"><label for="daysMonth"><span class="label-icon-inline">${icon("calendar-dots")}</span> Dias de uso/mês</label><div class="stepper-input"><button type="button" class="step-btn" data-step="-1" aria-label="Diminuir dias">−</button><input type="number" id="daysMonth" name="daysMonth" min="1" max="31" step="1" value="${i.daysMonth}" required><button type="button" class="step-btn" data-step="1" aria-label="Aumentar dias">+</button></div></div><div class="stat-badge-month"><span class="stat-badge-label">Total estimado</span><strong id="monthPreview">${number(i.kmDay * i.daysMonth)} <small>km/mês</small></strong></div></div><div class="home-charging-card"><div class="charging-card-header"><span class="charging-icon-badge">${icon("house-line")}</span><div><strong>Recarga em casa</strong><p id="chargingHint">${chargingHint()}</p></div></div></div></section><section class="card plan-preview"><div class="section-label"><span class="label-icon">${icon("wallet")} Assinatura + uso</span><span class="tag">${planNote() === "Valores de demonstração" ? "Demonstração" : "Sua cotação"}</span></div><p class="plan-line">${state.plan.months} meses · ${number(state.plan.kmAllowance)} km/mês para os dois carros</p><div class="plan-fuel" data-fuel-note>${fuelNote()}</div><button type="button" class="secondary" data-action="assumptions">${icon("sliders-horizontal")} Ajustar preços e assinatura</button></section><p class="note">${icon("info")}<span>O total soma mensalidade e energia ou gasolina. Não inclui instalação, taxas ou km excedentes.</span></p><div id="formError" class="error" role="alert" hidden></div></form>`;
   }
   function chargingHint() {
     return "Este comparativo considera recarga em casa. Confirme o acesso ao carregador.";
@@ -326,43 +332,7 @@ function initializeSimulator(config) {
         },
       ];
 
-      return `
-      <details class="card compare-hub-card specs-disclosure">
-        <summary class="specs-summary">
-          <div class="specs-summary-title">
-            <span class="summary-icon">${icon("sliders-horizontal")}</span>
-            <h4>Comparativo de características</h4>
-          </div>
-          <div class="specs-summary-right">
-            <div class="specs-cars-legend">
-              <span class="legend-badge gas-badge">${icon("gas-pump")} ${gasCar.name}</span>
-              <span class="legend-badge elec-badge">${icon("lightning")} ${electricCar.name}</span>
-            </div>
-            ${icon("caret-down", "specs-chevron")}
-          </div>
-        </summary>
-
-        <div class="specs-cards-grid">
-          ${specs.map(s => `
-            <div class="spec-card-row">
-              <div class="spec-row-lead">
-                <span class="spec-glyph">${icon(s.glyph)}</span>
-                <strong>${s.label}</strong>
-              </div>
-              <div class="spec-columns">
-                <div class="spec-val-box gas-val">
-                  <small class="name-argo">${icon("gas-pump")} ${gasCar.name}</small>
-                  <span>${s.gas}</span>
-                </div>
-                <div class="spec-val-box elec-val">
-                  <small class="name-electric">${icon("lightning")} ${electricCar.name}</small>
-                  <span>${s.elec}</span>
-                </div>
-              </div>
-            </div>
-          `).join("")}
-        </div>
-      </details>`;
+      return `<details class="card specs-disclosure"><summary class="specs-summary"><span class="summary-icon">${icon("car-profile")}</span><span class="summary-text"><strong>O que muda entre os dois</strong><small>Câmbio, porta-malas, segurança e multimídia</small></span>${icon("caret-down", "chevron")}</summary><div class="specs-table" role="table" aria-label="Comparativo de características"><div class="specs-head" role="row"><span role="columnheader"></span><span role="columnheader" class="gas-name">${icon("gas-pump")} ${gasCar.name}</span><span role="columnheader" class="elec-name">${icon("lightning")} ${electricCar.name}</span></div>${specs.map((s) => `<div class="specs-row" role="row"><span role="rowheader">${icon(s.glyph)} ${s.label}</span><span role="cell">${s.gas}</span><span role="cell">${s.elec}</span></div>`).join("")}</div></details>`;
     }
 
     return `<div class="intro result-intro"><div class="eyebrow">${c.full}</div><h1>Seu cenário</h1><p>${number(i.kmDay)} km/dia · ${number(r.monthlyKm)} km/mês · recarga em casa</p></div><div class="result-car-switch" role="group" aria-label="Escolha o comparativo">${Object.values(
@@ -374,7 +344,7 @@ function initializeSimulator(config) {
       )
       .join(
         "",
-      )}</div><section class="hero ${r.status}"><div class="hero-head"><div><span class="badge">${icon(r.status === "not-fit" ? "warning-circle" : "check-circle")}${s.badge}</span><h2>${s.title}</h2></div>${r.status === "not-fit" ? `<span class="status-warning">${icon("warning-circle")}</span>` : `<img class="art3d battery-art" src="${artwork.battery3d}" alt="" aria-hidden="true">`}</div><p>${s.detail}</p><div class="ticks" aria-hidden="true">${Array.from({ length: 10 }, (_, j) => `<span class="${j < filled ? "filled" : ""}"></span>`).join("")}</div><div class="meter-label"><span>Seu dia · ${number(i.kmDay)} km</span><strong>Entre recargas · ${number(r.usableRange)} km</strong></div></section><section class="card comparison-card"><div class="comparison-title"><div><span class="eyebrow">Mesmo prazo e franquia</span><h2>Assinatura + uso</h2></div><img class="art3d money-art" src="${artwork.money3d}" alt="" aria-hidden="true"></div><p class="plan-context">${state.plan.months} meses · ${number(state.plan.kmAllowance)} km/mês</p><div class="cost-comparison">${costSide(false)}${costSide(true)}</div>${p.ready ? `<div class="saving ${cheaper ? "" : "negative"}"><span class="saving-caption">${icon("wallet")}<span>${p.exceedsKm ? "Diferença parcial" : Math.abs(p.savings) < 0.005 ? "Mesmo custo estimado" : cheaper ? "Economia estimada" : "Custo adicional estimado"}<small>assinatura + uso do elétrico</small></span></span><span><strong data-savings>${brl(Math.abs(p.savings), 2)}</strong><small>/mês</small></span></div>` : `<div class="warning">Informe as mensalidades do ${c.name} e do ${c.gas.name}.</div>`}${decisionCard(r)}<button class="subtle-link" data-action="assumptions">Ajustar preços e assinatura</button><p class="hint example-notice">${planNote()}</p><div class="comparison-source" data-fuel-note>${fuelNote()}</div></section>${comparisonCard(c, c.gas, r, p)}${group("charging", "Autonomia e recarga", `${number(r.usableRange)} km estimados entre recargas`, "battery-charging", autonomy)}${group("method", "Como calculamos", "Assinatura, consumo e tarifas", "gauge", method)}<p class="note">${icon("info")}<span>Estimativa de assinatura + uso. Não garante autonomia nem inclui instalação, taxas ou km excedentes.</span></p>`;
+      )}</div><section class="hero ${r.status}"><div class="hero-head"><div><span class="badge">${icon(r.status === "not-fit" ? "warning-circle" : "check-circle")}${s.badge}</span><h2>${s.title}</h2></div>${r.status === "not-fit" ? `<span class="status-warning">${icon("warning-circle")}</span>` : `<img class="art3d battery-art" src="${artwork.battery3d}" alt="" aria-hidden="true">`}</div><p>${s.detail}</p><div class="ticks" aria-hidden="true">${Array.from({ length: 10 }, (_, j) => `<span class="${j < filled ? "filled" : ""}"></span>`).join("")}</div><div class="meter-label"><span>Seu dia · ${number(i.kmDay)} km</span><strong>Entre recargas · ${number(r.usableRange)} km</strong></div></section><section class="card comparison-card"><div class="comparison-title"><div><span class="eyebrow">Mesmo prazo e franquia</span><h2>Assinatura + uso</h2></div><img class="art3d money-art" src="${artwork.money3d}" alt="" aria-hidden="true"></div><p class="plan-context">${state.plan.months} meses · ${number(state.plan.kmAllowance)} km/mês</p><div class="cost-comparison">${costSide(false)}${costSide(true)}</div>${p.ready ? `<div class="saving ${cheaper ? "" : "negative"}"><span class="saving-caption">${icon("wallet")}<span>${p.exceedsKm ? "Diferença parcial" : Math.abs(p.savings) < 0.005 ? "Mesmo custo estimado" : cheaper ? "Economia estimada" : "Custo adicional estimado"}<small>assinatura + uso do elétrico</small></span></span><span><strong data-savings>${brl(Math.abs(p.savings), 2)}</strong><small>/mês</small></span></div>` : `<div class="warning">Informe as mensalidades do ${c.name} e do ${c.gas.name}.</div>`}${decisionCard(r)}<div class="comparison-source" data-fuel-note>${fuelNote()}</div><p class="hint">${planNote()}.</p><button class="secondary" data-action="assumptions">${icon("sliders-horizontal")} Ajustar preços e assinatura</button></section>${comparisonCard(c, c.gas, r, p)}${group("charging", "Autonomia e recarga", `${number(r.usableRange)} km estimados entre recargas`, "battery-charging", autonomy)}${group("method", "Como calculamos", "Assinatura, consumo e tarifas", "gauge", method)}<p class="note">${icon("info")}<span>Estimativa de assinatura + uso. Não garante autonomia nem inclui instalação, taxas ou km excedentes.</span></p>`;
   }
   function openModal(title, body) {
     $("modalTitle").textContent = title;
@@ -631,6 +601,9 @@ function initializeSimulator(config) {
         state.screen = "result";
         render();
         document.querySelector(".app").scrollTo(0, 0);
+        // No celular os cenários ficam abaixo do app: volta para o resultado.
+        if (window.matchMedia("(max-width: 860px)").matches)
+          window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
         toast(error.message);
       }

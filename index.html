@@ -8,6 +8,16 @@
     />
     <meta name="theme-color" content="#00843D" />
     <title>Localiza · Simulador de rotina elétrica</title>
+    <meta
+      name="description"
+      content="Simulador de assinatura de carro elétrico: veja se a autonomia cabe na sua rotina e compare o custo mensal com um carro a gasolina."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..800;1,700..900&family=Funnel+Display:wght@500..800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/styles.css" />
     <script src="js/calculations.js" defer></script>
     <script src="js/assets.js" defer></script>
@@ -16,15 +26,22 @@
   <body>
     <div class="stage">
       <aside class="presentation">
-        <div class="brand-large">Localiza</div>
-        <span class="eyebrow">Assinatura elétrica</span>
-        <h2>O elétrico na sua rotina.</h2>
-        <p class="lead">Compare a autonomia e o custo de assinatura + uso.</p>
-        <div class="demo-label">
-          <p>Cenários para testar</p>
+        <div class="wordmark" aria-label="Localiza Assinatura">
+          <strong>Localiza</strong><span>Assinatura</span>
+        </div>
+
+        <p class="kicker"><span><b>Case 1</b> · Hackathon Localiza · mobilidade elétrica</span></p>
+        <h1 class="display">O elétrico <span class="marker">na sua rotina.</span></h1>
+        <p class="lead">
+          Antes de assinar, veja se a autonomia cabe no seu dia a dia e quanto
+          custa por mês a assinatura com energia, lado a lado com um carro a
+          gasolina.
+        </p>
+
+        <section class="scenarios" aria-labelledby="scenarios-title">
+          <h2 id="scenarios-title" class="block-title">Teste um cenário</h2>
           <button class="scenario" data-scenario="home">
-            <i
-              ><svg
+            <i><svg
                 class="icon"
                 aria-hidden="true"
                 focusable="false"
@@ -38,14 +55,12 @@
                 />
                 <path
                   d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"
-                /></svg></i
-            ><span
-              ><strong>Recarga em casa</strong
-              ><small>40 km por dia</small></span
-            ></button
-          ><button class="scenario" data-scenario="limit">
-            <i
-              ><svg
+                /></svg></i>
+            <span><strong>Recarga em casa</strong><small>40 km por dia · 30 dias/mês</small></span>
+            <svg class="scenario-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="scenario" data-scenario="limit">
+            <i><svg
                 class="icon"
                 aria-hidden="true"
                 focusable="false"
@@ -59,26 +74,24 @@
                 />
                 <path
                   d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"
-                /></svg></i
-            ><span
-              ><strong>Distância longa, recarga em casa</strong
-              ><small>80 km/dia · 22 dias/mês</small></span
-            >
+                /></svg></i>
+            <span><strong>Distância longa</strong><small>80 km por dia · 22 dias/mês</small></span>
+            <svg class="scenario-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
-        </div>
-        <p class="foot-note">
-          Gasolina por estado, consultada na API.<br />Sem cadastro ou banco de
-          dados.
-        </p>
-        <section class="case-summary" aria-labelledby="case-title">
-          <span class="eyebrow">Case 1 · Mobilidade elétrica</span>
-          <h3 id="case-title">
-            A assinatura como porta de entrada para a mobilidade elétrica
-          </h3>
-          <p>
-            Ajudar o cliente a esclarecer dúvidas sobre autonomia, recarga e custos
-            antes de assinar um elétrico.
+        </section>
+
+        <section class="case" aria-labelledby="case-title">
+          <h2 id="case-title" class="block-title">Por que isso importa</h2>
+          <ul class="case-stats">
+            <li><strong>29%</strong><span>dos leads já são de elétricos; eram 1% menos de um ano antes</span></li>
+            <li><strong>3×</strong><span>menor é a conversão desses leads, comparada à de combustão</span></li>
+            <li><strong>80%</strong><span>de quem assinou e avaliou elétricos escolheu combustão</span></li>
+          </ul>
+          <p class="case-note">
+            O interesse existe; o que trava é a percepção de risco. Este MVP
+            ataca uma dúvida: o custo total e se o carro cabe na rotina.
           </p>
+          <p class="foot-note">Números do material do case. Gasolina por estado via API, sem cadastro ou banco de dados.</p>
         </section>
       </aside>
       <section class="iphone-frame" aria-label="Prévia mobile do simulador">
@@ -200,6 +213,10 @@
         <div class="iphone-home" aria-hidden="true"></div>
       </section>
     </div>
+    <footer class="site-footer">
+      <span>Protótipo de hackathon, não oficial · Christiano Gonçalves Araujo</span>
+      <a href="https://github.com/christiano-gonara/localiza-simulador-eletrico" target="_blank" rel="noopener">Código no GitHub</a>
+    </footer>
     <dialog id="modal" aria-labelledby="modalTitle">
       <header class="modal-header">
         <h2 id="modalTitle"></h2>
